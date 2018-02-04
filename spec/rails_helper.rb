@@ -64,7 +64,8 @@ RSpec.configure do |config|
     MongoidUser.destroy_all
     ActiveRecordUser.destroy_all
 
-    RailsJwtAuth.simultaneous_sessions = 1
-    RailsJwtAuth.confirmation_url = nil
+    @default_values = RailsJwtAuth.class_variables.each_with_object({}) do |key, hash|
+      hash[key] = RailsJwtAuth.class_variable_get key
+    end
   end
 end
