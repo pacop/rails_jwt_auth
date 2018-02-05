@@ -16,13 +16,17 @@ module RailsJwtAuth
       errors.empty? ? update_attributes(params) : false
     end
 
-    def to_token_payload
-      {id: id.to_s}
+    def to_token_payload(_request)
+      {sub: id.to_s}
     end
 
     module ClassMethods
+      def from_token_request(request)
+        RailsJwtAuth.model.where(email: request[:token][:email]).first
+      end
+
       def from_token_payload(payload)
-        find payload[:id]
+        find payload[:sub]
       end
     end
 

@@ -18,8 +18,7 @@ module RailsJwtAuth
         payload = JwtManager.decode(token).first.with_indifferent_access
         unauthorize! unless JwtManager.valid_payload?(payload)
 
-        user_payload = payload[RailsJwtAuth.model.to_s.underscore]
-        @current_user = RailsJwtAuth.model.from_token_payload(user_payload)
+        @current_user = RailsJwtAuth.model.from_token_payload(payload)
       rescue
         unauthorize!
       end
