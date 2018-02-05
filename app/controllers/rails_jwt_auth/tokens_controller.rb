@@ -6,7 +6,8 @@ module RailsJwtAuth
     include RenderHelper
 
     def create
-      user = RailsJwtAuth.model.from_token_request request
+      user = RailsJwtAuth.model.where(RailsJwtAuth.auth_field_name =>
+        token_create_params[RailsJwtAuth.auth_field_name].to_s.downcase).first
 
       if !user || !user.authenticate(token_create_params[:password])
         render_422 token: [create_token_error]

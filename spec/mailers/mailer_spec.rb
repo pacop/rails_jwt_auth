@@ -156,7 +156,7 @@ RSpec.describe RailsJwtAuth::Mailer, type: :mailer do
         expect(mail.body).to include(url)
       end
     end
-    
+
     context 'when invitation_url opton is defined with hash url' do
       before do
         RailsJwtAuth.invitation_url = 'http://www.host.com/#/url?param=value'

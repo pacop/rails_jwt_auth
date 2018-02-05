@@ -16,15 +16,11 @@ module RailsJwtAuth
       errors.empty? ? update_attributes(params) : false
     end
 
-    def to_token_payload(_request)
+    def to_token_payload(_request=nil)
       {sub: id.to_s}
     end
 
     module ClassMethods
-      def from_token_request(request)
-        RailsJwtAuth.model.where(email: request[:token][:email]).first
-      end
-
       def from_token_payload(payload)
         find payload[:sub]
       end
@@ -45,7 +41,8 @@ module RailsJwtAuth
         has_secure_password
 
         before_validation do
-          self.email = email.downcase if email
+          auth_field = RailsJwtAuth.auth_field_name
+          self[auth_field] = self[auth_field].downcase if self[auth_field]
         end
       end
     end

@@ -25,7 +25,7 @@ describe RailsJwtAuth::AuthenticableHelper, type: :helper do
   describe '#authenticate!' do
     context 'when jwt is valid' do
       it 'loads current user' do
-        jwt = RailsJwtAuth::JwtManager.encode(active_record_user: {id: user.id.to_s})
+        jwt = RailsJwtAuth::JwtManager.encode(sub: user.id.to_s)
         helper.request.env['HTTP_AUTHORIZATION'] = "Bearer #{jwt}"
         expect { helper.authenticate! }.not_to raise_exception
         expect(helper.current_user.id) == user.id

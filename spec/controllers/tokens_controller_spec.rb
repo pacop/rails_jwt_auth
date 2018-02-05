@@ -24,8 +24,8 @@ describe RailsJwtAuth::TokensController do
 
           it 'returns valid token' do
             jwt = json['jwt']
-            payload = RailsJwtAuth::Jwt::Manager.decode(jwt)[0]
-            expect(payload[model_key]).to eq(user.to_token_payload.stringify_keys)
+            payload = RailsJwtAuth::JwtManager.decode(jwt)[0]
+            expect(payload['sub']).to eq(user.to_token_payload.stringify_keys['sub'])
           end
         end
 
